@@ -38,6 +38,8 @@ public class Bank {
                         Account loggedInUser = bankService.loginAccount(email, pin);
                         
                         if(loggedInUser != null){
+                            System.out.print("\033[H\033[2J");
+                            System.out.flush(); 
                             System.out.println("Hello, " + loggedInUser.getName() + "! What would you like to do?");
                             displayScreen.displayService(loggedInUser);
                         }

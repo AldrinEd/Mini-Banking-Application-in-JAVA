@@ -24,12 +24,16 @@ public class DisplayScreen {
             try {
                 System.out.println("1. Check Account");
                 System.out.println("2. Transfer Money");
-                System.out.println("3. Logout");
+                System.out.println("3. Withdraw");
+                System.out.println("4. Deposit");
+                System.out.println("5. Logout");
                 System.out.print("Select a number: ");
                 ch = Integer.parseInt(sc.readLine());
 
                 switch (ch) {
                     case 1:{
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush(); 
                         System.out.println("============================");
                         System.out.println("ID: " + userId);
                         System.out.println("Name: " + account.getName());
@@ -38,6 +42,8 @@ public class DisplayScreen {
                         break;
                     }
                     case 2:{
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush(); 
                         System.out.println("Enter receiver id: ");
                         int receiverId = Integer.parseInt(sc.readLine());
                         System.out.println("Enter Amount to transfer: ");
@@ -52,6 +58,20 @@ public class DisplayScreen {
                         break;
                     }
                     case 3:{
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush(); 
+                        System.out.print("Enter amount to withdraw: ");
+                        double amount = Double.parseDouble(sc.readLine());
+                                    
+                        if(transaction.withdraw(userId, amount)){
+                           System.out.println("Cash Withdrew Successfuly!");
+                        }
+                        else{
+                            System.out.println("Withdraw Failed!");
+                        }
+                        break;
+                    }
+                    case 5:{
                         System.out.println("Logged out successfully! Returning to main menu.");
                         login = false;
                         break;

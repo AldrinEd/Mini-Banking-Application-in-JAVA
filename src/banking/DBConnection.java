@@ -1,5 +1,6 @@
 package banking;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -11,6 +12,14 @@ public class DBConnection {
 
     public static Connection getConnection(){
         try {
+            InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("config.properties");
+            prop.load(input);
+
+            if(input == null){
+                System.out.println("config.properties not found!");
+                return null;
+            }
+
             String mysqlJDBCDriver = "com.mysql.cj.jdbc.Driver";
             String url = prop.getProperty("db.url");
             String user = prop.getProperty("db.user");

@@ -59,4 +59,37 @@ public class Transaction {
 
         return false;
     }
+
+    public boolean withdraw (int senderId, double amount){
+        try {
+            String checkBalance = "SELECT * FROM user where id = ?";
+            PreparedStatement ps = connection.prepareStatement(checkBalance);
+            ps.setInt(1, senderId);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next() && rs.getDouble("balance") < amount){
+                System.out.println("Insufficient Balance!");
+                return false;
+            }
+
+            String deductToSender = "UPDATE user SET balance = balance - ? WHERE id = ?";
+            PreparedStatement psSender = connection.prepareStatement(deductToSender);
+            psSender.setDouble(1, amount);
+            psSender.setInt(2, senderId);   
+            psSender.executeUpdate();
+
+            connection.commit();
+            return true;
+
+        } catch (Exception e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
